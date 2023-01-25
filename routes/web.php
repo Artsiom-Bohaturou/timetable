@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes([
     'register' => false,
-    'password_reset' => false,
-    'password_email' => false,
+    'reset' => false,
+    'request' => false,
+    'confirm' => false,
 ]);
 
 Route::middleware('auth:web')->group(function () {
     Route::resource('/users', \App\Http\Controllers\Admin\UserController::class)->names('users');
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::match(['PUT', 'PATCH'], '/users/{id}/restore', [App\Http\Controllers\Admin\UserController::class, 'restore'])->name('users.restore');
+
+    Route::get('/', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
 });
