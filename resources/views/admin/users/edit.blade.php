@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group">
                     <label for="groupSelect">Выберите новую группу</label>
-                    <label for="groupSelect">(Старая группа: {{ $user->group->name }})</label>
+                    <label for="groupSelect">(Старая группа: {{ $user->group->name ?? 'Отсутствует' }})</label>
                     <select class="form-control" id="groupSelect" name="group_id">
                         <option disabled selected>Группа не выбрана</option>
                         @foreach ($groups as $group)
@@ -76,7 +76,8 @@
             </div>
 
             <div class="card-footer">
-                <a href="{{ route('users.index') }}"><button type="button" class="btn btn-secondary">Отменить</button></a>
+                <a href="{{ route('users.show', $user->id) }}"><button type="button"
+                        class="btn btn-secondary">Отменить</button></a>
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </form>
@@ -85,4 +86,12 @@
     @if ($errors->any())
         <x-admin.alert colorClass="danger" :message="$errors->first()" />
     @endif
+@stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#groupSelect').select2();
+        });
+    </script>
 @stop

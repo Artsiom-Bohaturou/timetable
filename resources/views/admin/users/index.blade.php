@@ -19,7 +19,7 @@
     <div class="card">
         <div class="card-head pt-4 pl-4">
             <form action="{{ route('users.index') }}" method="GET" id="addTrashed">
-                <input id="withTrashed" type="checkbox" value="withTrashed" name="withTrashed"
+                <input id="withTrashed" type="checkbox" value="1" name="withTrashed"
                     @if (!!request()->get('withTrashed')) checked @endif>
                 <label for="withTrashed">Показывать удаленных пользователей</label>
             </form>
@@ -28,7 +28,7 @@
             <div id="user-list_wrapper" class="dataTables_wrapper dt-bootstrap4">
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="user-list" class="table table-bordered table-hover dataTable dtr-inline">
+                        <table class="table table-bordered table-hover dataTable dtr-inline">
                             <thead>
                                 <tr>
                                     <th tabindex="0" rowspan="1" colspan="1">
@@ -48,14 +48,15 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tableList">
                                 @foreach ($users as $user)
                                     <a href="#">
-                                        <tr class='clickable-row' data-href='{{ route('users.show', $user->id) }}'>
+                                        <tr class='clickable-row @if ($user->deleted_at) bg-secondary @endif'
+                                            data-href='{{ route('users.show', $user->id) }}'>
                                             <td class="dtr-control">{{ $user->id }}</td>
                                             <td>{{ $user->full_name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->group->name }}</td>
+                                            <td>{{ $user->group->name ?? 'Отсутствует' }}</td>
                                             <td>{{ $user->created_at }}</td>
                                         </tr>
                                     </a>
@@ -74,26 +75,8 @@
 @stop
 
 @section('js')
+    <script src="{{ asset('js/datatable.js') }}"></script>
     <script>
-        $(function() {
-            $(".dataTable").DataTable({
-                "info": false,
-                // "aoColumns": [{
-                //     "sTitle": "<input type='checkbox'></input>",
-                //     "mDataProp": null,
-                //     "sWidth": "20px",
-                //     "sDefaultContent": "<input type='checkbox' ></input>",
-                //     "bSortable": false
-                // }]
-            });
-        });
-
-        jQuery(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
-            });
-        });
-
         document.querySelector('#withTrashed')
             .addEventListener('click', () => document.querySelector('#addTrashed').submit());
     </script>

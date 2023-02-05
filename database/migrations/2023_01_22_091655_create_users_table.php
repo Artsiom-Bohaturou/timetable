@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('full_name')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password');
-            $table->foreignId('group_id')->constrained('groups')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('group_id')->nullable()->constrained('groups')->cascadeOnDelete()->cascadeOnUpdate()->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

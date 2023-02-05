@@ -9,7 +9,7 @@
 @section('content')
 
     <div class="row">
-        <x-admin.card url="/admin/users" colorClass="warning" icon="fas fa-user">
+        <x-admin.card url="{{ route('users.index') }}" colorClass="warning" icon="fas fa-user">
             <h3>{{ $usersCount }}</h3>
             <p>Количество пользователей</p>
         </x-admin.card>
@@ -17,7 +17,7 @@
             <h3>2</h3>
             <p>Осталось пар (to do)</p>
         </x-admin.card>
-        <x-admin.card url="/admin/groups" colorClass="info" icon="fas fa-users">
+        <x-admin.card url="{{ route('groups.index') }}" colorClass="info" icon="fas fa-users">
             <h3>{{ $groupsCount }}</h3>
             <p>Количество групп</p>
         </x-admin.card>

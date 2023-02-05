@@ -81,10 +81,9 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateUserRequest $request
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUserRequest $request, $id)
     {
@@ -109,6 +108,7 @@ class UserController extends Controller
 
     /**
      * Restores deleted resource
+     *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */

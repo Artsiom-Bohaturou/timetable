@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-between mb-4">
             <a href="{{ route('users.index') }}">
                 <button type="button" class="btn btn-block btn-primary">
-                    <i class="fas fa-arrow-left"></i> Назад
+                    <i class="fas fa-arrow-left"></i> Список пользователей
                 </button>
             </a>
 
@@ -64,8 +64,10 @@
                         <tr>
                         <tr>
                             <td>Группа</td>
-                            {{-- {{ route('group.show') }} --}}
-                            <td><a href="#">{{ $user->group->name }}</a></td>
+                            <td>
+                                <a
+                                    @if ($user->group) href="{{ route('groups.show', $user->group->id) }}" @endif>{{ $user->group->name ?? 'Отсутствует' }}</a>
+                            </td>
                         </tr>
                         <td>Дата регестрации</td>
                         <td>{{ $user->created_at }}</td>
@@ -89,14 +91,15 @@
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-danger">
                         <h5 class="modal-title" id="deleteModalLabel">Удаление пользователя</h5>
-                        <button type="button" class="close" data-dismiss="modal">
+                        <button type="button" class="close text-white" data-dismiss="modal">
                             <span>&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Вы уверены что хотите удалить пользователя группы {{ $user->group->name }} {{ $user->full_name }}?
+                        Вы уверены что хотите удалить пользователя группы {{ $user->group->name ?? '' }}
+                        {{ $user->full_name }}?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>

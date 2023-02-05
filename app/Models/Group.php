@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Group
@@ -24,8 +25,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Group extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    public static $seederGroupCount = 5;
+    public static $seederGroupCount = 30;
+    protected $fillable = ['name'];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

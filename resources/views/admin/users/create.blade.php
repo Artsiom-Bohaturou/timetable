@@ -78,3 +78,11 @@
         <x-admin.alert colorClass="danger" :message="$errors->first()" />
     @endif
 @stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#groupSelect').select2();
+        });
+    </script>
+@stop
