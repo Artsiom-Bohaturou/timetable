@@ -10,7 +10,7 @@
     {{-- COLORS --}}
     @php
         $count = 0;
-
+        
         function getColor()
         {
             global $count;
@@ -40,9 +40,8 @@
         </div>
 
         <div class="ml-auto">
-            <form action="{{ route('groups.index') }}" method="GET" id="search">
-                <label for="groupName">Поиск группы</label>
-                <input id="groupName" name="groupName" placeholder="Имя группы">
+            <form action="{{ route('groups.index') }}" method="GET" id="search" class="d-flex align-items-center">
+                <input class="mr-2 py-1 pr-4 pl-1" id="groupName" name="groupName" placeholder="Поиск группы">
 
                 @if (request()->get('withTrashed'))
                     <input hidden name='withTrashed' value="{{ request()->get('withTrashed') }}">
@@ -58,7 +57,11 @@
         @foreach ($groups as $group)
             <x-admin.card url="{{ route('groups.show', $group->id) }}" colorClass="{{ getColor() }}" icon="fas fa-users">
                 <h2>{{ $group->name }}</h2>
-                <p>{{ $group->created_at }}</p>
+                @if ($group->deleted_at)
+                    <p>Группа удалена {{ $group->deleted_at }}</p>
+                @else
+                    <p>Группа создана {{ $group->created_at }}</p>
+                @endif
             </x-admin.card>
         @endforeach
     </div>
@@ -75,32 +78,13 @@
     </div>
 
     {{-- CREATE GROUP MODAL --}}
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="{{ route('groups.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-header bg-primary">
-                        <h5 class="modal-title" id="createModalLabel">Создание новой группы</h5>
-                        <button type="button" class="close text-white" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="groupNameInput">Название группы</label>
-                            <input type="text" class="form-control" id="groupNameInput" name="name"
-                                value="{{ old('name') }}">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Создать</button>
-                    </div>
-                </form>
-            </div>
+    <x-admin.modal modalId="createModal" :route="route('groups.store')" method="POST" color="primary" modalTitle="Создание новой группы"
+        buttonName="Создать">
+        <div class="form-group">
+            <label for="groupNameInput">Название группы</label>
+            <input type="text" class="form-control" id="groupNameInput" name="name" value="{{ old('name') }}">
         </div>
-    </div>
+    </x-admin.modal>
 
     @if ($errors->any())
         <x-admin.alert colorClass='danger' :message="$errors->first()" />

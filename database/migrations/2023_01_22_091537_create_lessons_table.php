@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('teacher_full_name');
             $table->integer('class_number');
             $table->smallInteger('lesson_start');
-            $table->string('day_name');
+            $table->smallInteger('day_number');
             $table->smallInteger('week_number');
             $table->foreignId('group_id')->constrained('groups')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

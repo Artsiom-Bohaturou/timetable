@@ -212,8 +212,8 @@ return [
 
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
+    'sidebar_collapse_auto_size' => true,
+    'sidebar_collapse_remember' => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
@@ -292,39 +292,38 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
         // Sidebar items:
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
             'text' => 'Главная',
-            'url' => 'admin',
+            'route' => 'home',
             'icon' => 'fas fa-home',
         ],
         [
             'text' => 'Список пользователей',
-            'url' => 'admin/users',
+            'route' => 'users.index',
             'icon' => 'fas fa-user',
+            'active' => ['admin/users/*'],
         ],
         [
             'text' => 'Расписание',
-            'url' => 'admin/timetable',
+            'route' => 'timetable.index',
             'icon' => 'fas fa-table',
+            'active' => ['admin/timetable/*'],
         ],
         [
             'text' => 'Группы',
-            'url' => 'admin/groups',
+            'route' => 'groups.index',
             'icon' => 'fas fa-users',
+            'active' => ['admin/groups/*'],
         ],
         [
             'text' => 'Администраторы',
-            'url' => 'admin/admins',
+            'route' => 'admins.index',
             'icon' => 'fas fa-user-tie',
+            'active' => ['admin/admins/*'],
         ],
         // [
         //     'text' => 'pages',

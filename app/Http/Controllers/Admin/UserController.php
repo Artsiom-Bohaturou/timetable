@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('group')
-            ->select('id', 'full_name', 'email', 'created_at', 'group_id')
+            ->select('id', 'full_name', 'email', 'created_at', 'group_id', 'deleted_at')
             ->withTrashed(!!$request->get('withTrashed'))
             ->get();
 

@@ -2,17 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- */
-
 Auth::routes([
     'register' => false,
     'reset' => false,
@@ -26,6 +15,12 @@ Route::middleware('auth:web')->group(function () {
 
     Route::resource('/groups', \App\Http\Controllers\Admin\GroupController::class)->names('groups')->except(['edit', 'create']);
     Route::match(['PUT', 'PATCH'], '/groups/{id}/restore', [App\Http\Controllers\Admin\GroupController::class, 'restore'])->name('groups.restore');
+
+    Route::get('/admins', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admins.index');
+
+    Route::resource('/timetable', \App\Http\Controllers\Admin\TimetableController::class)->names('timetable')->except(['edit', 'create', 'update', 'destroy']);
+    Route::match(['PUT', 'PATCH'], '/timetable/update', [\App\Http\Controllers\Admin\TimetableController::class, 'update'])->name('timetable.update');
+    Route::delete('/timetable/delete', [\App\Http\Controllers\Admin\TimetableController::class, 'destroy'])->name('timetable.destroy');
 
     Route::get('/', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
 });

@@ -10,11 +10,18 @@
     <div>
         {{-- NAVIGATION --}}
         <div class="d-flex justify-content-between mb-4">
-            <a href="{{ route('groups.index') }}">
-                <button type="button" class="btn btn-block btn-primary">
-                    <i class="fas fa-arrow-left"></i> Список групп
-                </button>
-            </a>
+            <div class="d-flex">
+                <a href="{{ route('groups.index') }}" class="mr-2">
+                    <button type="button" class="btn btn-block btn-primary">
+                        <i class="fas fa-arrow-left"></i> Список групп
+                    </button>
+                </a>
+                <a href="{{ route('timetable.show', $group->id) }}">
+                    <button type="button" class="btn btn-block btn-info">
+                        <i class="fas fa-table"></i> Расписание
+                    </button>
+                </a>
+            </div>
 
             <div class="d-flex">
                 @if ($group->deleted_at)
@@ -86,58 +93,19 @@
         </div>
 
         {{-- DELETE MODAL --}}
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                        <h5 class="modal-title" id="deleteModalLabel">Удаление группы</h5>
-                        <button type="button" class="close text-white" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Вы уверены что хотите удалить группу {{ $group->name }}?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <form action="{{ route('groups.destroy', $group->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Удалить</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-admin.modal modalId="deleteModal" :route="route('groups.destroy', $group->id)" method="DELETE" color="danger" modalTitle="Удаление группы"
+            buttonName="Удалить">
+            Вы уверены что хотите удалить группу {{ $group->name }}?
+        </x-admin.modal>
 
         {{-- EDIT MODAL --}}
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="{{ route('groups.update', $group->id) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <div class="modal-header bg-warning">
-                            <h5 class="modal-title" id="editModal">Изменение группы</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="groupNameInput">Новое название группы. Текущее {{ $group->name }}</label>
-                                <input type="text" class="form-control" id="groupNameInput" name="name"
-                                    value="{{ old('name') }}">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                            <button type="submit" class="btn btn-warning">Изменить</button>
-                        </div>
-                    </form>
-                </div>
+        <x-admin.modal modalId="editModal" :route="route('groups.update', $group->id)" method="PATCH" color="warning" modalTitle="Изменение группы"
+            buttonName="Изменить">
+            <div class="form-group">
+                <label for="groupNameInput">Новое название группы. Текущее {{ $group->name }}</label>
+                <input type="text" class="form-control" id="groupNameInput" name="name" value="{{ old('name') }}">
             </div>
-        </div>
+        </x-admin.modal>
 
         @if (session('success'))
             <x-admin.alert colorClass="success" :message="session()->get('success')" />

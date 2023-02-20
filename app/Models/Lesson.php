@@ -39,4 +39,19 @@ class Lesson extends Model
     use HasFactory;
 
     public static $seederLessonCount = 30;
+
+    protected $fillable = [
+        'name',
+        'teacher_full_name',
+        'class_number',
+        'lesson_start',
+        'day_number',
+        'week_number',
+        'group_id',
+    ];
+
+    public function group()
+    {
+        return $this->hasOne(Group::class);
+    }
 }

@@ -51,7 +51,7 @@
                             <tbody id="tableList">
                                 @foreach ($users as $user)
                                     <a href="#">
-                                        <tr class='clickable-row @if ($user->deleted_at) bg-secondary @endif'
+                                        <tr class='clickable-row @if ($user->deleted_at) bg-dark @endif'
                                             data-href='{{ route('users.show', $user->id) }}'>
                                             <td class="dtr-control">{{ $user->id }}</td>
                                             <td>{{ $user->full_name }}</td>
